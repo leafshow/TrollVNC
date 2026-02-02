@@ -25,6 +25,7 @@
 #import <UIKit/UIScreen.h>
 #import <mach/mach.h>
 
+#import "Control.h"
 #import "IOKitSPI.h"
 #import "IOSurfaceSPI.h"
 #import "Logging.h"
@@ -78,8 +79,7 @@ void CARenderServerRenderDisplay(kern_return_t a, CFStringRef b, IOSurfaceRef su
     CGSize screenSize = [[UIScreen mainScreen] _unjailedReferenceBoundsInPixels].size;
 
 #if !TARGET_IPHONE_SIMULATOR
-    BOOL isPad = ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad);
-    if (isPad) {
+    if (gShouldApplyOrientationFix) {
         width = (int)round(screenSize.height);
         height = (int)round(screenSize.width);
     } else {
